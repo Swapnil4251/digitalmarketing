@@ -1,0 +1,525 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Mail Interface</title>
+<link href="./css/ci_functions.css" rel="stylesheet" type="text/css" />
+<script src="./js/scriptaculous.shrunk.js" type="text/javascript" charset="ISO-8859-1"></script>
+<script type="text/javascript" src="./js/function_search.js"></script>
+
+<!-- the scriptaculous javascript library is available at http://script.aculo.us/ -->
+</head>
+
+<body>
+<div style="position:fixed; left:566px; top:6px; width:148px; height:18px; z-index:1 ; background-color: #0479C0; layer-background-color: #0479C0; border: 1px none #000000;display:none;" id='load'>
+  <div align="center" ><font color="#FFFFFF"><strong><font size="2">Processing</font></strong></font></div>
+</div>
+<div id="main_holder" ><!--
+  <ul id="menu_list">
+    <li><a href="./send.php">Send Message</a></li>
+    <li><a href="./stopProcess.php">Stop Process</a></li>
+    <li><a href="./sendConfig.php">Send Configure</a></li>
+    <li><a href="./allMessage.php">All Messages </a></li>
+    <li><a href="./processQueue.php">Process Queue</a></li>
+    <li><a href="./pmtaMonitoring.php">PMTA Monitoring </a></li>    
+  </ul> -->
+  <div id="mainbody">
+	<h2>Mail Interface [ ServerName : cn445 / Main IP : 78.129.229.141 ] <br>Offer Name : *JTL Only - (794) [US] CPC - Medigap (Mon-Thurs | All Domains)[ActiveSunMedia] | IMS_Spheredigitalnetworks</h2>
+	<div id="timer"></div>
+	<hr />
+<script>
+   var currTime='2017-03-20 16:30:59';  //2015-9-11 17:41:49  //date('Y-m-d H:i:s')
+   var timeChk='2017-03-20 14:30:54';   //2015-9-9 21:22:39  1441811471   1441811472  //$createdateChk
+ 
+ 
+
+	cur_datetime = currTime.split(' ');
+	cur_date =  cur_datetime[0].split('-');
+	cur_time =  cur_datetime[1].split(':');
+
+	create_datetime = timeChk.split(' ');
+	create_date =  create_datetime[0].split('-');
+	create_time =  create_datetime[1].split(':');
+ 
+
+	first = new Date(create_date[0],create_date[1],create_date[2],create_time[0],create_time[1],create_time[2]); // Get the first date epoch object
+	second = new Date(cur_date[0],cur_date[1],cur_date[2],cur_time[0],cur_time[1],cur_time[2]); // Get the first date epoch object
+	duration= second - first ;
+
+   
+	setInterval(function(){
+		duration = duration+1000;
+		  
+		var seconds = parseInt((duration/1000)%60)
+			, minutes = parseInt((duration/(1000*60))%60)
+			, hours = parseInt((duration/(1000*60*60))%24)
+			, days  = parseInt(duration/(1000*60*60*24));
+
+		var hoursDays = parseInt(days*24);
+		hours += hoursDays;
+		hours = (hours < 10) ? "0" + hours : hours;
+		minutes = (minutes < 10) ? "0" + minutes : minutes;
+		seconds = (seconds < 10) ? "0" + seconds : seconds;
+		document.getElementById("timer").innerHTML = hours + ":" + minutes + ":" + seconds;
+
+      
+      //alert(year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds);
+      //var ExpireAfter=48-timeChk;
+      //document.getElementById("timer").innerHTML = "Created "+ timeChk +" hrs before, and expire in  "+ExpireAfter+" hrs " +i;
+    }, 1000 );
+   
+  
+ 
+   
+function auto_fill(val)
+{
+	if(val!='Select'){
+		id = val;
+		var userid  = document.getElementById("userid" ).value;
+
+		if (window.XMLHttpRequest) {
+			// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				result = xmlhttp.responseText;
+				autodetail = result.split('^_^');
+
+			msg_value = autodetail[0].split('^');
+			ip_value = autodetail[1].split('^');  
+   
+			//document.getElementById("offerid").value = msg_value[3];			 
+			document.getElementById("from_name").value = msg_value[4];
+			document.getElementById("from_email").value = msg_value[5];
+			document.getElementById("reply_email").value = msg_value[6];
+			document.getElementById("bounce_email").value = msg_value[7];
+			
+
+			for (var i = 0; i < x_mailer.options.length; i++) {
+				if (x_mailer.options[i].value == msg_value[8]) {
+					x_mailer.options[i].selected = true;
+				}
+			}
+
+			for (var i = 0; i < x_delay.options.length; i++) {
+				if (x_delay.options[i].value == msg_value[9]) {
+					x_delay.options[i].selected = true;
+				   
+				}
+			}
+
+			for (var i = 0; i < choose_url.options.length; i++) {
+				if (choose_url.options[i].value == msg_value[10]) {
+					choose_url.options[i].selected = true;
+				   
+				}
+			}
+			
+			
+			document.getElementById("subject").value = msg_value[11];
+			document.getElementById("header_format").value = msg_value[12];
+			document.getElementById("to_email").value = msg_value[13];
+			document.getElementById("message").value = msg_value[14];			
+			document.getElementById("negative").value = msg_value[15];	
+
+			
+			for (var i = 0; i < domains.options.length; i++) {
+				domains.options[i].selected = false;
+			}
+
+			for (var j = 0; j < ip_value.length; j++) {  
+				for (var i = 0; i < domains.options.length; i++) {
+					if (domains.options[i].value == ip_value[j]) {
+						domains.options[i].selected = true;
+					}
+				}	
+			}
+			
+			document.getElementById("change_limit_per_ip").value = msg_value[16];			
+			document.getElementById("test_email_ids").value = msg_value[17];			
+			document.getElementById("period").value = msg_value[18];
+
+
+			for (var i = 0; i < process_type.options.length; i++) {
+				if (process_type.options[i].value == msg_value[21]) {
+					process_type.options[i].selected = true;
+				   
+				}
+			}
+			
+			//document.getElementById("subjectid").value = msg_value[19];			
+			//document.getElementById("nmid").value = msg_value[20];			
+		
+		
+			for (var i = 0; i < choose_header.options.length; i++) {
+				if (choose_header.options[i].value == msg_value[25]) {
+					choose_header.options[i].selected = true;
+				}
+			}
+ 
+			document.getElementById("received_email").value = msg_value[26];			
+			document.getElementById("returnpath_email").value = msg_value[27];
+			
+			document.getElementById("content_"+msg_value[28]).checked=true;
+			
+			if(msg_value[29]=='yes') document.getElementById("chk_shorturl").checked=true;  			
+			document.getElementById("ips_selector").value = msg_value[30];			
+			document.getElementById("mta_name").value = msg_value[31];
+			if(msg_value[32]!='') document.getElementById("change_ip").checked=true; 
+			document.getElementById("change_ip_"+msg_value[33]).checked=true;			
+			document.getElementById("change_ip_status_wait_limit").value = msg_value[34];
+			document.getElementById("iteration").value = msg_value[35];			
+			//document.getElementById("listname_vl").value = msg_value[36];	
+			document.getElementById("domain_selector").value = msg_value[37];	
+			if(msg_value[38]=='yes') document.getElementById("domain_stopchk").checked=true; 
+			document.getElementById("domain_counter").value = msg_value[39];	
+
+
+			}  
+		}
+		xmlhttp.open("GET","autofill_phplistv3.php?autoid="+id+"&userid="+userid,true);
+		xmlhttp.send();
+	}
+	else
+	{
+			document.getElementById("from_name").value = '';
+			document.getElementById("from_email").value = '';
+			document.getElementById("reply_email").value = '';
+			document.getElementById("bounce_email").value = '';
+			
+			for (var i = 0; i < x_mailer.options.length; i++) {
+					x_mailer.options[i].selected = false;
+			}
+
+			for (var i = 0; i < x_delay.options.length; i++) {
+					x_delay.options[i].selected = false;
+			}
+
+			for (var i = 0; i < choose_url.options.length; i++) {
+					choose_url.options[i].selected = false;
+			}
+			
+			document.getElementById("subject").value = '';
+			document.getElementById("to_email").value = '';
+			document.getElementById("message").value = '';		
+			document.getElementById("negative").value = '';
+
+			for (var i = 0; i < domains.options.length; i++) {
+				domains.options[i].selected = false;
+			}
+
+			document.getElementById("change_limit_per_ip").value = '';
+			document.getElementById("test_email_ids").value = '';		
+			document.getElementById("period").value = '';
+			for (var i = 0; i < process_type.options.length; i++) {
+					process_type.options[i].selected = false;
+			}
+			
+			//document.getElementById("subjectid").value ='';
+			//document.getElementById("nmid").value = '';
+		
+			for (var i = 0; i < choose_header.options.length; i++) {
+					choose_header.options[i].selected = false;
+			}
+ 
+			document.getElementById("received_email").value = '';			
+			document.getElementById("returnpath_email").value = '';
+			document.getElementById("chk_shorturl").checked=false;  			
+			document.getElementById("ips_selector").value = '';	
+			document.getElementById("mta_name").value = '';
+			document.getElementById("change_ip").checked=false; 			
+			document.getElementById("change_ip_status_wait_limit").value = '';
+			document.getElementById("iteration").value = '';			
+			//document.getElementById("listname_vl").value = '';
+			document.getElementById("domain_selector").value = '';
+			document.getElementById("domain_stopchk").checked=false; 
+			document.getElementById("domain_counter").value = '';
+	}
+}
+</script>	
+<div style='width:60%;float:right'>	
+<select onchange='auto_fill(this.value)'>
+<option value='Select'>Select</option>
+</select>&nbsp;&nbsp;
+<a target='_blank' href='phpListv3_autolist.php?list=7yb' style='font-size:12px;'>Auto List</a>
+</div>
+<form id="frm" name="frm" >
+<div id="leftDiv" style="width:710px; float: left;">
+<input type="hidden" name="offerName" value="*JTL Only - (794) [US] CPC - Medigap (Mon-Thurs | All Domains)[ActiveSunMedia]">
+<input type='hidden' name='createtime' id='createtime' value="2017-03-20 14:30:54"/>
+<input type="hidden" name="sponsorName" value="IMS_Spheredigitalnetworks">
+<table>
+	<tr>
+		<td>
+			<div class="tabs">
+			<input id="tab-1" type="radio" name="radio-set" class="tab-selector-1" checked="checked" onClick="document.getElementById('as').style.display = 'none';document.getElementById('gs').style.display = '';"/>
+			<label for="tab-1" class="tab-label-1">General Settings</label>
+			
+			<input id="tab-2" type="radio" name="radio-set" class="tab-selector-2" onClick="document.getElementById('as').style.display = '';document.getElementById('gs').style.display = 'none';"/>
+			<label for="tab-2" class="tab-label-2">Auto Settings</label>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<div id="gs">
+				<table class="gridtable" width="700px" >
+					<tr> <td>From Name *</td><td colspan="3"><input type="text" name="from_name" id='from_name' size="60"></td></tr>
+					<tr> <td>From Email *</td>
+									<td><input type="text" name="from_email" id='from_email'  size="15"/></td>
+									<td>Reply Email *</td>
+									<td><input type="text" name="reply_email" id='reply_email' size="15"/></td>
+								</tr>
+
+					<tr> <td>Bounce Email *</td><td><input type="text" name="bounce_email" id='bounce_email' size="15"/></td>
+									<td>Choose Header</td>
+									<td><select name="choose_header" id="choose_header">
+											  <option value="header_0">Header 0</option>
+											  <option value="header_1">Header 1</option>
+											  <option value="header_2">Header 2</option>
+											  <option value="header_3">Header 3</option>
+										</select>
+									</td>					
+					</tr>
+					<tr> <td>X-Mailer</td><td><select name="x_mailer" id='x_mailer'>
+												<option selected value="AIR MAIL for Motif (v1.5)">AIR MAIL</option>
+												<option value="AIR Mosaic (16-bit) version 4.00.08.32">AIR Mosaic</option>
+												<option value="ELM [version 2.4 PL25]">ELM</option>
+												<option value="Gnus v5.4.39/XEmacs 19.15">Gnus </option>
+												<option value="Mozilla 3.01Gold (X11; I; SunOS 5.5.1 i86pc)">Mozilla 3.01</option>
+												<option value="Mozilla 4.0b2 (X11; I; SunOS 5.5 sun4c)">Mozilla 4.0b2</option>
+												<option value="Mozilla 4.61 [en] (Win95; I)">Mozilla 4.61</option>
+												<option value="PHP Version 1.0">PHP Version 1.0</option>
+												<option value="QUALCOMM Windows Eudora Version 4.3.2">QUALCOMM Windows</option>
+												<option value="SPRY Mail Version: 04.10.06.22">SPRY Mail </option>
+												<option value="Worldtalk (NetConnex V4.00a)/MIME">Worldtalk </option>
+										</select>
+						</td>
+						<td>X-Delay</td><td><select name="x_delay" id='x_delay' >
+											  <option value="1"    >1</option>
+											  <option value="100000"    >100000</option>
+											  <option value="200000"    >200000</option>
+											  <option value="300000"    >300000</option>
+											  <option value="400000"    >400000</option>
+											  <option value="500000"    >500000</option>
+											  <option value="600000"    >600000</option>
+											  <option value="700000"    >700000</option>
+											  <option value="800000"    >800000</option>
+											  <option value="900000"    >900000</option>
+											  <option value="1000000"    >1000000</option>
+											  <option value="2000000"    >2000000</option>
+											  <option value="3000000"   >3000000</option>
+											  <option value="4000000"   >4000000</option>											
+  											  <option value="5000000"   >5000000</option>
+											  <option value="6000000"   >6000000</option>
+											  <option value="7000000"   >7000000</option>
+											  <option value="8000000"   >8000000</option>
+											  <option value="9000000"   >9000000</option>
+											  <option value="10000000"   >10000000</option>
+											
+											  
+										</select> </td>
+					</tr>							
+					<tr> <td>Choose URL</td><td colspan="3"><select name="choose_url" id='choose_url'>
+											  <option value="url3">URL 3</option>
+											  <option value="url4">URL 4</option>
+											  <option value="url5">URL 5</option>
+											  <option value='url6'>URL 6</option>
+											  <option value='url7'>URL 7</option>
+											  <option value="url8">URL 8</option>
+											  <option value='url9'>URL 9</option>
+											  <option value='url10'>URL 10</option>
+										</select>
+						</td>
+					</tr>
+					<tr> <td>Process Type *</td><td colspan="3"><select name="process_type" id='process_type'>
+											  <option value="default">Choose process type</option>
+											  <option value="inbox">Inbox</option>
+											  <option value="spam">Spam</option>											  
+										</select>
+						</td>
+					</tr>
+					<tr> <td>Subject *</td><td colspan="3"><input type="text" name="subject" id='subject' size="60">Encoding: No<input type="radio" checked name="subject_enocding" value="N" /> | Q<input type="radio" name="subject_enocding" value="Q"/>| B<input type="radio" name="subject_enocding" value="B"/></td></tr>
+					<tr> <td>Header Format *</td><td colspan="3"> <textarea cols="55" rows="12" id="header_format" name="header_format">MIME-Version: 1.0
+Precedence: Normal
+From: __From
+To: __To
+Reply-To: <__Reply>
+Return-Path: <__Return>
+List-Unsubscribe: <__Unsub>
+Subject: __Subject
+Message-ID: <__uniqueid@__domain> 
+Content-Type : text/html</textarea></td></tr>
+					<tr> <td>To </td><td colspan="3"><input type="text" name="to_email" id='to_email' size="60" >   </td></tr>
+					<tr> <td>Received/ Helo</td><td colspan="3"><input type="text" name="received_email" id='received_email'  size="60">   </td></tr>
+					<tr> <td>Return Path <br>/ Mail From </td><td colspan="3"><input type="text" name="returnpath_email" id='returnpath_email'  size="60" >   </td></tr>
+				 
+				 	<tr> <td colspan="3"><input type="checkbox" name="test_email" id='test_email' value="yes" > <font color="red"> Check if is a Test </font></td>
+					<td colspan="4"><input type="checkbox" name="chk_shorturl" id='chk_shorturl' value="yes" > <font color="red"> Short URL </font></td></tr>
+					<tr> <td colspan="4"><input type="radio" name="content_type" id='content_text' value="text"  ><font color="red">  Content Type : Text</font></td></tr>
+					<tr> <td colspan="4"><input type="radio" name="content_type"  id='content_html' value="html"  ><font color="red">  Content Type : Html</font></td></tr>
+					<tr> <td colspan="4"><input type="radio" name="content_type"  id='content_multipart' value="multipart" ><font color="red">  Content Type : Multipart</font></td></tr>
+					<tr> <td ><label for="filename" > Filename *</label></td><td><span id="divfilename" ondblclick="getCount()" ><input type='radio' name='filename' value="2003201758d01fd9933690.10365611sort" size="60" readonly checked /> <b>2003201758d01fd9933690.10365611sort</b>  </span> <input type="button" id="refresh_filename" value = "Refresh Filename" onClick="new Ajax.Updater('divfilename', 'refresh_filename.php?param=00xsv1&enc=54c5ef807e5e529aabccbb11c78be4ff', {asynchronous:true, evalScripts:true, method:'post', onComplete:function(request){new Effect.Appear('divfilename');new Effect.Fade('load');}, onLoading:function(request){new Element.show('load')}, parameters:Form.serialize(this.form)})"></td>
+					
+					<td colspan="2"><span id="reset_msg"> </span><input type="button" id="divCountReset" value = "Reset File Count" onClick="new Ajax.Updater('reset_msg', 'reset_fileCount.php?param=00xsv1&enc=54c5ef807e5e529aabccbb11c78be4ff', {asynchronous:true, evalScripts:true, method:'post', onComplete:function(request){new Effect.Fade('load');}, onLoading:function(request){new Element.show('load')}, parameters:Form.serialize(this.form)})"></td>
+					
+					</tr>
+                                        					<tr> <td ><label for="message" > Message *</label></td><td colspan="3"><textarea cols="70" rows="15" id="message" name="message"></textarea> </td></tr>
+					<tr> <td ><label for="negative" > Negative *</label></td><td colspan="3"><textarea cols="50" rows="10" id="negative" name="negative"></textarea> <div style="100px; float:right;"><br /><input type="button" id="upload_negartive" value = "Upload Negative" onClick="new Ajax.Updater('resultAjax', 'upload_negative.php?param=00xsv1&enc=54c5ef807e5e529aabccbb11c78be4ff', {asynchronous:true, evalScripts:true, method:'post', onComplete:function(request){new Effect.Appear('resultAjax');new Effect.Fade('load');}, onLoading:function(request){new Element.show('load')}, parameters:Form.serialize(this.form)})"><br /> <input type="checkbox" name="shuffle" value="yes"> Shuffle</div></td></tr>					
+								
+				</table>			
+			</div> 
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<div id="as">
+				<table class="gridtable" width="700px">
+					<tr> <td>Domains</td><td><select id="domains" name="domains[]" size="10" multiple> <option value="vmta_0000,78.129.229.141,applyak.com" style='color:black' >vmta_0000,78.129.229.141,applyak.com</option>
+<option value="vmta_0001,78.129.229.142,jitter.applyak.com" style='color:black' >vmta_0001,78.129.229.142,jitter.applyak.com</option>
+<option value="vmta_0002,78.129.229.143,ohos.applyak.com" style='color:black' >vmta_0002,78.129.229.143,ohos.applyak.com</option>
+<option value="vmta_0003,78.129.229.144,mail-merge.applyak.com" style='color:black' >vmta_0003,78.129.229.144,mail-merge.applyak.com</option>
+<option value="vmta_0004,78.129.229.145,jayperub.com" style='color:black' >vmta_0004,78.129.229.145,jayperub.com</option>
+<option value="vmta_0005,78.129.229.146,jitter.jayperub.com" style='color:black' >vmta_0005,78.129.229.146,jitter.jayperub.com</option>
+<option value="vmta_0006,78.129.229.147,hal.jayperub.com" style='color:black' >vmta_0006,78.129.229.147,hal.jayperub.com</option>
+<option value="vmta_0007,78.129.229.148,khabra.jayperub.com" style='color:black' >vmta_0007,78.129.229.148,khabra.jayperub.com</option>
+<option value="vmta_0008,78.129.229.149,capashl.com" style='color:black' >vmta_0008,78.129.229.149,capashl.com</option>
+<option value="vmta_0009,78.129.229.150,alt1.capashl.com" style='color:black' >vmta_0009,78.129.229.150,alt1.capashl.com</option>
+<option value="vmta_0010,78.129.229.151,atl161.capashl.com" style='color:black' >vmta_0010,78.129.229.151,atl161.capashl.com</option>
+<option value="vmta_0011,78.129.229.152,emailer1-103.capashl.com" style='color:black' >vmta_0011,78.129.229.152,emailer1-103.capashl.com</option>
+<option value="vmta_0012,78.129.229.153,cammitt.com" style='color:black' >vmta_0012,78.129.229.153,cammitt.com</option>
+<option value="vmta_0013,78.129.229.154,mta.cammitt.com" style='color:black' >vmta_0013,78.129.229.154,mta.cammitt.com</option>
+<option value="vmta_0014,78.129.229.231,frasen.cammitt.com" style='color:black' >vmta_0014,78.129.229.231,frasen.cammitt.com</option>
+<option value="gm_0000,78.129.229.141,applyak.ab" style='color:black' >gm_0000,78.129.229.141,applyak.ab</option>
+<option value="gm_0001,78.129.229.142,jitter.applyak.ab" style='color:black' >gm_0001,78.129.229.142,jitter.applyak.ab</option>
+<option value="gm_0002,78.129.229.143,ohos.applyak.ab" style='color:black' >gm_0002,78.129.229.143,ohos.applyak.ab</option>
+<option value="gm_0003,78.129.229.144,mail-merge.applyak.ab" style='color:black' >gm_0003,78.129.229.144,mail-merge.applyak.ab</option>
+<option value="gm_0004,78.129.229.145,jayperub.ab" style='color:black' >gm_0004,78.129.229.145,jayperub.ab</option>
+<option value="gm_0005,78.129.229.146,jitter.jayperub.ab" style='color:black' >gm_0005,78.129.229.146,jitter.jayperub.ab</option>
+<option value="gm_0006,78.129.229.147,hal.jayperub.ab" style='color:black' >gm_0006,78.129.229.147,hal.jayperub.ab</option>
+<option value="gm_0007,78.129.229.148,khabra.jayperub.ab" style='color:black' >gm_0007,78.129.229.148,khabra.jayperub.ab</option>
+<option value="gm_0008,78.129.229.149,capashl.ab" style='color:black' >gm_0008,78.129.229.149,capashl.ab</option>
+<option value="gm_0009,78.129.229.150,alt1.capashl.ab" style='color:black' >gm_0009,78.129.229.150,alt1.capashl.ab</option>
+<option value="gm_0010,78.129.229.151,atl161.capashl.ab" style='color:black' >gm_0010,78.129.229.151,atl161.capashl.ab</option>
+<option value="gm_0011,78.129.229.152,emailer1-103.capashl.ab" style='color:black' >gm_0011,78.129.229.152,emailer1-103.capashl.ab</option>
+<option value="gm_0012,78.129.229.153,cammitt.ab" style='color:black' >gm_0012,78.129.229.153,cammitt.ab</option>
+<option value="gm_0013,78.129.229.154,mta.cammitt.ab" style='color:black' >gm_0013,78.129.229.154,mta.cammitt.ab</option>
+<option value="gm_0014,78.129.229.231,frasen.cammitt.ab" style='color:black' >gm_0014,78.129.229.231,frasen.cammitt.ab</option>
+<option value="cm_0000,78.129.229.141,applyak.com" style='color:black' >cm_0000,78.129.229.141,applyak.com</option>
+<option value="cm_0001,78.129.229.142,jitter.applyak.com" style='color:black' >cm_0001,78.129.229.142,jitter.applyak.com</option>
+<option value="cm_0002,78.129.229.143,ohos.applyak.com" style='color:black' >cm_0002,78.129.229.143,ohos.applyak.com</option>
+<option value="cm_0003,78.129.229.144,mail-merge.applyak.com" style='color:black' >cm_0003,78.129.229.144,mail-merge.applyak.com</option>
+<option value="cm_0004,78.129.229.145,jayperub.com" style='color:black' >cm_0004,78.129.229.145,jayperub.com</option>
+<option value="cm_0005,78.129.229.146,jitter.jayperub.com" style='color:black' >cm_0005,78.129.229.146,jitter.jayperub.com</option>
+<option value="cm_0006,78.129.229.147,hal.jayperub.com" style='color:black' >cm_0006,78.129.229.147,hal.jayperub.com</option>
+<option value="cm_0007,78.129.229.148,khabra.jayperub.com" style='color:black' >cm_0007,78.129.229.148,khabra.jayperub.com</option>
+<option value="cm_0008,78.129.229.149,capashl.com" style='color:black' >cm_0008,78.129.229.149,capashl.com</option>
+<option value="cm_0009,78.129.229.150,alt1.capashl.com" style='color:black' >cm_0009,78.129.229.150,alt1.capashl.com</option>
+<option value="cm_0010,78.129.229.151,atl161.capashl.com" style='color:black' >cm_0010,78.129.229.151,atl161.capashl.com</option>
+<option value="cm_0011,78.129.229.152,emailer1-103.capashl.com" style='color:black' >cm_0011,78.129.229.152,emailer1-103.capashl.com</option>
+<option value="cm_0012,78.129.229.153,cammitt.com" style='color:black' >cm_0012,78.129.229.153,cammitt.com</option>
+<option value="cm_0013,78.129.229.154,mta.cammitt.com" style='color:black' >cm_0013,78.129.229.154,mta.cammitt.com</option>
+<option value="cm_0014,78.129.229.231,frasen.cammitt.com" style='color:black' >cm_0014,78.129.229.231,frasen.cammitt.com</option>
+</select></td></tr>       
+					<tr> <td>IPs selector</td><td> 
+						<table>
+							<tr><td> <textarea cols="40" rows="10" name="ips_selector" id="ips_selector"></textarea></td><td>MTA Name<input type="text" name="mta_name" id='mta_name' maxlength="10" size="10"/> <input type="button" name="locate_ips" value="Locate IPs" id="search_button" onclick="LocateIps(this.form.ips_selector.value,this.form.domains,this.form.mta_name.value);"/> </td></tr>
+						</table>
+					 
+					 </td></tr>	
+					<tr> <td><input type="checkbox" name="change_ip" id='change_ip' > Change IP</td><td ><table><tr><td>Limit/IP <input type="text" name="change_limit_per_ip" id='change_limit_per_ip'  size="10"/></td><td >When all ips are used:</td> <td><input type="radio" name="change_ip_status" id='change_ip_wait' value="wait" >Wait(secs): <input type="text" name="change_ip_status_wait_limit"   id='change_ip_status_wait_limit' size="7"/> <br>Iteration: <input type="text" name="iteration" id='iteration' size="2"/><br><input type="radio" name="change_ip_status" id='change_ip_stop' value="stop" checked >Stop Process </td> </tr></table> </td></tr>
+					<tr> <td>Test Email Ids<br>(email1;email2;..):</td><td> <textarea cols="55" rows="5" name="test_email_ids" id='test_email_ids'></textarea></td></tr>
+					<tr> <td><span >Period</span></td><td> <input type="text" name="period" id='period' size="10" title="After how many emails you should get test email.."/></td></tr>
+					<tr> <td><span >SubjectId</span></td><td> <input type="text" name="subjectid" id='subjectid' value="1577053" readonly/></td></tr>
+					<tr> <td><span >OfferId</span></td><td> <input type="text" name="offerid" id='offerid' value="nitmedicare3321321" readonly/>  </td> </tr>
+					<tr> <td><span >Nm</span></td><td> <input type="text" name="nmid" id='nmid'  value="5366" readonly/></td></tr>
+					<tr> <td><span >Origin/vl_listname</span></td><td> <input type="text" name="listname_vl" id='listname_vl' value="" readonly/></td></tr>
+					<tr> <td>Domain List<br>(domain1;domain2;..):</td><td> 
+						<table>
+							<tr><td> <textarea cols="40" rows="10" name="domain_selector" id="domain_selector"></textarea></td>
+							<tr> <td colspan="4"><input type="checkbox" name="domain_stopchk" id='domain_stopchk' value="yes" > <font color="red"> Check if not Stop after iteration </font></td></tr>
+							<td>Domain Iteration Count<input type="text" name="domain_counter" id='domain_counter' maxlength="10" size="10"/> </td></tr>
+						</table>
+					 
+					 </td></tr>	
+					<tr> <td></td><td><input type="hidden" name="enc" value="54c5ef807e5e529aabccbb11c78be4ff" readonly />
+					<input type="hidden" name="userid" id='userid' value="5307" readonly />
+					<input type="hidden" name="isp" value="aol" readonly />
+					<input type="hidden" name="servername" value="cn445" readonly />
+					<input type="hidden" name="sponser" value="IMS_Spheredigitalnetworks" readonly />
+					<input type="hidden" name="offername" value="*JTL Only - (794) [US] CPC - Medigap (Mon-Thurs | All Domains)[ActiveSunMedia]" readonly />
+					
+					<input type="hidden" name="entity" value="teamnit" readonly />
+					<input type="hidden" name="team" value="AOL" readonly />
+					<input type="hidden" name="droptype" value="traditional" readonly />
+					<input type="hidden" name="sending_method" value="inbox" readonly />
+					</td></tr>					
+				</table>
+			</div> 
+		</td>
+	</tr>
+</table>
+</div>
+<div id="rightDiv" style="min-width: 300px; width: 600px; float: left;font-size: 12px;padding: 15px;height: 800px; overflow:auto;">
+	<pre><div id="resultAjax" ></div></pre>
+	<pre><div id="resultAjax1" ></div></pre>
+</div>
+
+<div id="bottomDiv" style="clear: both;">	
+</div>
+<br>
+<input type="button" name="submit_sent" id="submit_sent" value="Send Message to the Selected Mailinglists" onClick="new Ajax.Updater('resultAjax', 'send.php?param=00xsv1&enc=54c5ef807e5e529aabccbb11c78be4ff', {asynchronous:true, evalScripts:true, method:'post', onComplete:function(request){new Effect.Appear('resultAjax');new Effect.Fade('load'); document.getElementById('fileStartCount').value = '';}, onLoading:function(request){new Element.show('load')}, parameters:Form.serialize(this.form)})">
+<br>
+<br>
+<input type="button" name="kill_sent" id="kill_sent" value="Kill process" onClick="new Ajax.Updater('resultAjax1', 'kill.php?param=00xsv1&enc=54c5ef807e5e529aabccbb11c78be4ff', {asynchronous:true, evalScripts:true, method:'post', onComplete:function(request){new Effect.Appear('resultAjax1');new Effect.Fade('load');}, onLoading:function(request){new Element.show('load')}, parameters:Form.serialize(this.form)})">
+
+<br>
+<br>
+</form>		 
+<table class="gridtable" style="font-family: monospace;"> 
+
+   <tr>
+      <td>URL3</td><td>http://domain.com/OTjYWWHZ/GfWcTxBP_uzLNOzQk/r-N2UwMmY1NSFjM3BjcDMwcDQ5ITNiZTQ2ITQxMyFtZG0xOHxjb20hY2IxYXBwcmVudEFjZG15b25saW4xMDQzY21kZnJqITdkZHQxdGYh/ASAP</td>
+   </tr>
+   <tr>
+      <td>URL4</td><td>http://domain.com/ql.html?r=pad01*pennystock=gm.a88p83.qna2qo.5fzx.bzghw__0rtF_P</td>
+   </tr>
+    <tr>
+      <td>URL5</td><td>http://domain.com/ua.php?by0=YubY3dZ9jX9j09h23bbXh103Y2b13nl9vkovXY8c73dVagWZs6WZp9|IK947U31p1phRX3NFqmNFqm</td>
+   </tr>
+    <tr>
+      <td>URL6</td><td>http://domain.com/ub.php?gg4z_MR_bo.yTR9LS9uydgy4S:gm:5ep:193tcok:3zbcs:c03sf,40z,YR5C,000000 </td>
+   </tr>
+    <tr>
+      <td>URL7</td><td>http://domain.com/uc.php?nqhL-280y.1m1nk8i*FQQQLQ6.KIOpp7UxDvvFOzgv.3yl3a/y4mna5.423.NQ3ZQw/c03po</td>
+   </tr>
+    <tr>
+      <td>URL8</td><td>http://domain.com/ud.php?cg==KGmKqLm1eK1eJ1F0q/mmFgMuqKkmMqau0rJKE4U/i=qF6lQ.LRT.Lh1GUd0dUO0d6xhWiYBGSq/fhkheuJqWiSNWiSN</td>
+   </tr>
+    <tr>
+      <td>URL9</td><td>http://domain.com/ue.php?o3g03av0sZ3sZjsfF-00f28Ea3d08-oEFbj3hGz-fWuNXvH7XvksgzrFrzLFrW_kJSDAgO-1kdkZEjaJSOeJSOe</td>
+   </tr>
+    <tr>
+      <td>URL10</td><td>http://domain.com/click.html?r-gBGgcqGAHgAHfAUXcGGU5r|cgEGrc/t|XsfgyY6cU4FTmqZxmqoAB6WXW6CXW40oMhp7B2cRoEoH|fcMh2SMh2S89340</td>
+   </tr>
+</table>	
+
+	
+  </div>
+</div>
+<p id="footer">This is Mail Interface built by <a href="http://">Programmer's</a> <br />
+  copyright &copy; 2012 by Faraji E-Consulting.
+</p>
+
+</body>
+</html>
+
+
+
+name:::http://78.129.229.141/phpListv3/index.php?param=00xsv1&enc=54c5ef807e5e529aabccbb11c78be4ff

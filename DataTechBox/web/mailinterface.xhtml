@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<f:loadBundle basename="resources.Application_en" var="msg" />
+
+<h:head>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>#{adminView.getActiveModel().getTitle()} | DataTechBox</title>
+
+	<link href="./css/bootstrap.min.css" rel="stylesheet" />
+	<link href="./font-awesome/css/font-awesome.css" rel="stylesheet" />
+
+	<!-- Toastr style -->
+	<link href="./css/plugins/toastr/toastr.min.css" rel="stylesheet" />
+
+	<!-- Gritter -->
+	<link href="./js/plugins/gritter/jquery.gritter.css" rel="stylesheet" />
+
+	<link href="./css/animate.css" rel="stylesheet" />
+	<link href="./css/style.css" rel="stylesheet" />
+	<link href="./css/plugins/chosen/bootstrap-chosen.css" rel="stylesheet" />
+
+	<!-- Sweet Alert -->
+	<link href="./css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+
+	<!-- Mainly scripts -->
+	<script src="./js/jquery-2.1.1.js"></script>
+	<script src="./js/bootstrap.min.js"></script>
+	<script src="./js/plugins/metisMenu/jquery.metisMenu.js"></script>
+	<script src="./js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+	<!-- Sweet alert -->
+	<script src="./js/plugins/sweetalert/sweetalert.min.js"></script>
+
+	<!-- Chosen -->
+	<script src="./js/plugins/chosen/chosen.jquery.js"></script>
+
+	<!-- Flot -->
+	<script src="./js/plugins/flot/jquery.flot.js"></script>
+	<script src="./js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+	<script src="./js/plugins/flot/jquery.flot.spline.js"></script>
+	<script src="./js/plugins/flot/jquery.flot.resize.js"></script>
+	<script src="./js/plugins/flot/jquery.flot.pie.js"></script>
+
+	<!-- Peity -->
+	<script src="./js/plugins/peity/jquery.peity.min.js"></script>
+	<script src="./js/demo/peity-demo.js"></script>
+
+	<!-- Custom and plugin javascript -->
+	<script src="./js/inspinia.js"></script>
+	<script src="./js/plugins/pace/pace.min.js"></script>
+
+	<!-- jQuery UI -->
+	<script src="./js/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+	<!-- GITTER -->
+	<script src="./js/plugins/gritter/jquery.gritter.min.js"></script>
+
+	<!-- DROPZONE -->
+	<script src="./js/plugins/dropzone/dropzone.js"></script>
+
+	<!-- Sparkline -->
+	<script src="./js/plugins/sparkline/jquery.sparkline.min.js"></script>
+
+	<!-- Sparkline demo data  -->
+	<script src="./js/demo/sparkline-demo.js"></script>
+
+	<!-- ChartJS-->
+	<script src="./js/plugins/chartJs/Chart.min.js"></script>
+
+	<!-- Toastr -->
+	<script src="./js/plugins/toastr/toastr.min.js"></script>
+
+
+	<script>
+		$(document).ready(function() {
+
+		});
+
+		function setElementValue(elementId, value) {
+			document.getElementById(elementId).value = value;
+		}
+	</script>
+
+</h:head>
+<h:body>
+	<h:form id="adminForm" enctype="multipart/form-data">
+	
+		<p:outputPanel id="statusScriptsPanel">
+			<script type="text/javascript">
+				function showStatus() {
+					
+					swal({
+		                title: "Successful",
+		                text: "All mails sent successfully.",
+		                type: "success",
+		                closeOnConfirm: true
+		            }, function () {
+		            		
+		            });
+				}
+				
+				function showSuccess(msg, callback) {
+					swal({
+		                title: "Successful",
+		                text: msg,
+		                type: "success",
+		                closeOnConfirm: true
+		            }, function () {
+		            		callback();
+		            });	
+				}
+			</script>
+		</p:outputPanel>
+		
+		<div id="wrapper">
+			<nav class="navbar-default navbar-static-side" role="navigation"
+				style="margin-top: 60px !important;">
+			<div class="sidebar-collapse">
+				<ul class="nav metismenu" id="side-menu">
+					<!-- <li class="nav-header">
+                        <div class="dropdown profile-element"> <span>
+                            <img alt="image" class="img-circle" src="img/profile_small.jpg" />
+                             </span>
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
+                             </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                <li><a href="profile.html">Profile</a></li>
+                                <li><a href="contacts.html">Contacts</a></li>
+                                <li><a href="mailbox.html">Mailbox</a></li>
+                                <li class="divider"></li>
+                                <li><a href="login.html">Logout</a></li>
+                            </ul>
+                        </div>
+                        <div class="logo-element">
+                            IN+
+                        </div>
+                    </li> -->
+					<li><a href="index.xhtml"><i class="fa fa-home"></i> <span
+							class="nav-label">Dashboard</span></a></li>
+					<li><a href="mailinterface.xhtml"><i class="fa fa-envelope"></i>
+							<span class="nav-label">Mail Interface</span></a></li>
+					<li><a href="offers.xhtml"><i class="fa fa-gift"></i>
+							<span class="nav-label">Offers</span></a></li>
+					<li class="active"><a href="index.html"> <i
+							class="fa fa-server"></i> <span class="nav-label">Servers</span>
+							<span class="fa arrow"></span>
+					</a>
+						<ul class="nav nav-second-level">
+							<li class="active"><a href="index.html">Server 1</a></li>
+							<li><a href="dashboard_2.html">Server 2</a></li>
+							<li><a href="dashboard_3.html">Server 3</a></li>
+							<li><a href="dashboard_4_1.html">Server 4</a></li>
+							<li><a href="dashboard_5.html">Server 5 </a></li>
+						</ul></li>
+				</ul>
+
+			</div>
+			</nav>
+
+			<div id="page-wrapper" class="gray-bg dashbard-1"
+				style="margin-top: 60px !important;">
+				<div class="row border-bottom">
+					<nav class="navbar navbar-fixed-top" role="navigation"
+						style="margin-bottom: 0;border-bottom: 1px none #2f4050 !important;">
+					<div class="navbar-header">
+						<a class="navbar-minimalize minimalize-styl-2" href="#"
+							style="margin: 0px 0px 0px 0px; width: 220px; height: 62px; background-color: #2f4050;">
+							<i class="fa fa-bars"
+							style="color: white; font-size: 22px; margin-top: 15px;">&nbsp;&nbsp;DataTechBox</i>
+							<!--  <img
+						src="./images/cnx_logo2.png"
+						style="margin-top: -10px; height: 45px;" /> -->
+						</a>
+						<div class="input-group"
+							style="padding-top: 13px !important; padding-left: 15px !important;">
+							<h3>#{adminView.getActiveModel().getTitle()}</h3>
+						</div>
+					</div>
+					<ul class="nav navbar-top-links navbar-right">
+						<li class="pull-right"><a href="#"> <i
+								class="fa fa-sign-out"></i> Log out
+						</a></li>
+					</ul>
+
+					</nav>
+				</div>
+
+				<div class="row">
+
+					<p:outputPanel styleClass="col-lg-12">
+
+						<p:outputPanel id="wrapperDiv"
+							styleClass="wrapper wrapper-content">
+
+							<div class="ibox">
+								<div class="ibox-title">
+									<h4>General Settings</h4>
+								</div>
+								<div class="ibox-content">
+
+									<p:outputPanel id="fieldsPanel"
+										styleClass="input-group col-sm-12">
+
+										<div class="col-sm-6" style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">From name : </label>
+											<div class="col-sm-8">
+												<p:inputText id="fromNameInput" styleClass="form-control"
+													type="text"
+													value="#{adminView.getActiveModel().getData()['fromName']}" />
+											</div>
+										</div>
+
+										<div class="col-sm-6" style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">From email : </label>
+											<div class="col-sm-8">
+												<p:inputText id="fromEmailInput" styleClass="form-control"
+													type="text"
+													value="#{adminView.getActiveModel().getData()['fromEmail']}" />
+											</div>
+										</div>
+
+										<div class="col-sm-6" style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">Reply to : </label>
+											<div class="col-sm-8">
+												<p:inputText id="replyToInput" styleClass="form-control"
+													type="text"
+													value="#{adminView.getActiveModel().getData()['replyTo']}" />
+											</div>
+										</div>
+
+										<div class="col-sm-6" style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">Bounce email :
+											</label>
+											<div class="col-sm-8">
+												<p:inputText id="bounceEmailInput" styleClass="form-control"
+													type="text"
+													value="#{adminView.getActiveModel().getData()['bounceEmail']}" />
+											</div>
+										</div>
+
+										<div class="col-sm-6" style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">X-Mailer : </label>
+											<div class="col-sm-8">
+												<h:selectOneMenu id="xMailerDropdown"
+													styleClass="form-control m-b"
+													value="#{adminView.getActiveModel().getData()['xMailer']}">
+													<f:selectItem itemLabel="Select X-Mailer" itemValue=""
+														noSelectionOption="true" />
+													<f:selectItems
+														value="#{adminView.getActiveModel().getXMailerSelectionOptions()}"
+														var="t" itemLabel="#{t.getLabel()}"
+														itemValue="#{t.getValue()}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+
+										<p:outputPanel rendered="false" styleClass="col-sm-6"
+											style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">X-Delay : </label>
+											<div class="col-sm-8">
+												<h:selectOneMenu id="xDelayDropdown"
+													styleClass="form-control m-b"
+													value="#{adminView.getActiveModel().getData()['xDelay']}">
+													<f:selectItem itemLabel="Select X-Delay" itemValue=""
+														noSelectionOption="true" />
+													<f:selectItems
+														value="#{adminView.getActiveModel().getXDelaySelectionOptions()}"
+														var="t" itemLabel="#{t.getLabel()}"
+														itemValue="#{t.getValue()}" />
+												</h:selectOneMenu>
+											</div>
+										</p:outputPanel>
+
+										<div class="col-sm-6" style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">Content type :
+											</label>
+											<div class="col-sm-8">
+												<h:selectOneMenu id="contentTypeDropdown"
+													styleClass="form-control m-b"
+													value="#{adminView.getActiveModel().getData()['contentType']}">
+													<f:selectItem itemLabel="Select Content type" itemValue=""
+														noSelectionOption="true" />
+													<f:selectItems
+														value="#{adminView.getActiveModel().getContentTypes()}"
+														var="t" itemLabel="#{t.getLabel()}"
+														itemValue="#{t.getValue()}" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+
+										<div class="col-sm-6" style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">Encoding : </label>
+											<div class="col-sm-8">
+												<h:selectOneMenu id="encodingInput"
+													styleClass="form-control m-b"
+													value="#{adminView.getActiveModel().getData()['encoding']}">
+													<f:selectItem itemLabel="No" itemValue="NO" />
+													<f:selectItem itemLabel="Yes" itemValue="YES" />
+												</h:selectOneMenu>
+											</div>
+										</div>
+
+										<p:outputPanel rendered="false" styleClass="col-sm-6"
+											style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">Header template
+												: </label>
+											<div class="col-sm-8">
+												<h:selectOneMenu id="headerTemplateInput"
+													styleClass="form-control m-b"
+													value="#{adminView.getActiveModel().getData()['headerTemplate']}">
+													<f:selectItem itemLabel="Select template" itemValue=""
+														noSelectionOption="true" />
+													<f:selectItems
+														value="#{adminView.getActiveModel().getHeaderTemplates()}"
+														var="t" itemLabel="#{t.getLabel()}"
+														itemValue="#{t.getValue()}" />
+												</h:selectOneMenu>
+											</div>
+										</p:outputPanel>
+
+										<div class="col-sm-6" style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">Header format :
+											</label>
+											<div class="col-sm-8">
+												<p:inputTextarea id="headerFormatInput" type="text"
+													styleClass="form-control"
+													value="#{adminView.getActiveModel().getData()['headerFormat']}" />
+											</div>
+										</div>
+
+										<div class="col-sm-6" style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">Subject : </label>
+											<div class="col-sm-8">
+												<p:inputText id="subjectInput" type="text"
+													styleClass="form-control"
+													value="#{adminView.getActiveModel().getData()['subject']}" />
+											</div>
+										</div>
+
+										<div class="col-sm-6" style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">Message : </label>
+											<div class="col-sm-8">
+												<p:inputTextarea id="messageInput" type="text"
+													styleClass="form-control"
+													value="#{adminView.getActiveModel().getData()['message']}" />
+											</div>
+										</div>
+
+										<div class="col-sm-6" style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">Negative : </label>
+											<div class="col-sm-8">
+												<p:inputTextarea id="negativeTextInput"
+													styleClass="form-control"
+													value="#{adminView.getActiveModel().getData()['negativeText']}" />
+												<p:inputText rendered="false" type="textarea"
+													styleClass="form-control"
+													value="#{adminView.getActiveModel().getData()['negative']}" />
+											</div>
+										</div>
+
+										<div class="col-sm-6" style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">Return path : </label>
+											<div class="col-sm-8">
+												<p:inputText id="returnPathInput" styleClass="form-control"
+													type="text"
+													value="#{adminView.getActiveModel().getData()['returnPath']}" />
+											</div>
+										</div>
+
+										<div class="col-sm-12">
+											<label class="col-sm-2 control-label">Send to email
+												IDs: </label>
+											<div class="col-sm-10">
+												<p:inputTextarea id="sendToEmails" styleClass="form-control"
+													value="#{adminView.getActiveModel().getData()['sendToEmails']}" />
+											</div>
+										</div>
+
+									</p:outputPanel>
+								</div>
+							</div>
+
+							<div class="ibox">
+								<div class="ibox-title">
+									<h4>Auto Settings</h4>
+								</div>
+								<div class="ibox-content">
+
+									<p:outputPanel id="autoSettingFieldsPanel"
+										styleClass="input-group col-sm-12">
+
+										<div class="col-sm-6" style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">Domains : </label>
+											<p:outputPanel id="domainsListPanel" styleClass="col-sm-8">
+												<h:inputHidden id="domainsListHiddenInput"
+													value="#{adminView.getActiveModel().getData()['selectedIPs']}" />
+												<select data-placeholder="Select domains..."
+													class="chosen-select" id="domainsSelector" multiple="true">
+													<option value="192.254.75.218">server.datatechbox.com
+														&lt;192.254.75.218&gt;</option>
+													<option value="192.254.75.219">server1.datatechbox.com
+														&lt;192.254.75.219&gt;</option>
+													<option value="192.254.75.220">server2.datatechbox.com
+														&lt;192.254.75.220&gt;</option>
+													<option value="192.254.75.221">server3.datatechbox.com
+														&lt;192.254.75.221&gt;</option>
+													<option value="192.254.75.222">server4.datatechbox.com
+														&lt;192.254.75.222&gt;</option>
+												</select>
+											</p:outputPanel>
+											<p:outputPanel id="scriptsPanel">
+												<script type="text/javascript">
+													$('#domainsSelector')
+															.chosen({
+																width : "100%"
+															});
+
+													$('#domainsSelector')
+															.on(
+																	'change',
+																	function(
+																			evt,
+																			params) {
+																		var values = $(
+																				'#domainsSelector')
+																				.val();
+																		document
+																				.getElementById('adminForm:domainsListHiddenInput').value = values;
+																		console
+																				.log('Values : '
+																						+ values);
+																	});
+
+													var v = document
+															.getElementById('adminForm:domainsListHiddenInput').value;
+													$('#domainsSelector')
+															.val(v)
+															.trigger(
+																	"liszt:updated");
+												</script>
+											</p:outputPanel>
+										</div>
+
+										<p:outputPanel rendered="false" styleClass="col-sm-6"
+											style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">Selected IPs :
+											</label>
+											<div class="col-sm-8">
+												<p:inputText id="selectedIPsInput" styleClass="form-control"
+													type="text"
+													value="#{adminView.getActiveModel().getData()['selectedIPs']}" />
+											</div>
+										</p:outputPanel>
+
+										<div class="col-sm-6" style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">Use IP rotation
+												: </label>
+											<div class="col-sm-8">
+												<p:selectBooleanCheckbox id="ipRotationInput"
+													styleClass="form-control"
+													value="#{adminView.getActiveModel().getData()['ipRotation']}" />
+											</div>
+										</div>
+
+										<p:outputPanel rendered="true" styleClass="col-sm-6"
+											style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">Iteration count
+												: </label>
+											<div class="col-sm-8">
+												<p:inputText id="iterationCountInput"
+													styleClass="form-control" type="text"
+													value="#{adminView.getActiveModel().getData()['iterationCount']}" />
+											</div>
+										</p:outputPanel>
+
+										<div class="col-sm-6" style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">When all IPs
+												are used : </label>
+											<div class="col-sm-4">
+												<label class="control-label">Wait (Secs): </label>
+												<p:inputText id="waitInput" styleClass="form-control"
+													type="text"
+													value="#{adminView.getActiveModel().getData()['waitInput']}" />
+											</div>
+											<div class="col-sm-4">
+												<label class="col-sm-6 control-label">Stop Process</label>
+												<p:selectBooleanCheckbox id="stopProcessInput"
+													value="#{adminView.getActiveModel().getData()['stopProcess']}" />
+											</div>
+										</div>
+
+										<div class="col-sm-6" style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">Test Email IDs
+												: </label>
+											<div class="col-sm-8">
+												<p:inputText id="testEmailsInput" styleClass="form-control"
+													type="text"
+													value="#{adminView.getActiveModel().getData()['testEmails']}" />
+											</div>
+										</div>
+
+										<div class="col-sm-6" style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">Testing period
+												: </label>
+											<div class="col-sm-8">
+												<p:inputText id="testingPeriodInput"
+													styleClass="form-control" type="text"
+													value="#{adminView.getActiveModel().getData()['testingPeriod']}" />
+											</div>
+										</div>
+
+										<div class="col-sm-6" style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">Subject ID : </label>
+											<div class="col-sm-8">
+												<p:inputText id="subjectIDInput" styleClass="form-control"
+													type="text"
+													value="#{adminView.getActiveModel().getData()['subjectId']}" />
+											</div>
+										</div>
+
+										<div class="col-sm-6" style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">Offer ID : </label>
+											<div class="col-sm-8">
+												<p:inputText id="offerIdInput" styleClass="form-control"
+													type="text"
+													value="#{adminView.getActiveModel().getData()['offerId']}" />
+											</div>
+										</div>
+
+										<div class="col-sm-6" style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">NM : </label>
+											<div class="col-sm-8">
+												<p:inputTextarea id="NMInput" type="text"
+													styleClass="form-control"
+													value="#{adminView.getActiveModel().getData()['NM']}" />
+											</div>
+										</div>
+
+										<div class="col-sm-6" style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">Origin/VL_ListName
+												: </label>
+											<div class="col-sm-8">
+												<p:inputText id="listNameInput" type="text"
+													styleClass="form-control"
+													value="#{adminView.getActiveModel().getData()['originListName']}" />
+											</div>
+										</div>
+
+										<div class="col-sm-6" style="padding-bottom: 10px !important;">
+											<label class="col-sm-4 control-label">Domain List : </label>
+											<div class="col-sm-8">
+												<p:inputTextarea id="domainListInput" type="text"
+													styleClass="form-control"
+													value="#{adminView.getActiveModel().getData()['domainList']}" />
+											</div>
+										</div>
+
+										<div class="col-sm-12">
+											<p:commandLink id="sendButton1" styleClass="btn btn-primary"
+												rendered="true" update="statusScriptsPanel,sendingStatusModalPanel"
+												oncomplete="showStatus();"
+												actionListener="#{adminView.processMailInterface}">Send</p:commandLink>
+											&nbsp;
+											<p:commandLink id="sendingStatusButton"
+												styleClass="btn btn-danger" rendered="false"
+												update="statusScriptsPanel, sendingStatusModalPanel"
+												oncomplete="$('#sendingStatusModal').modal('show');">Kill process</p:commandLink>
+										</div>
+										
+										<p:outputPanel id="sendingStatusModalPanel" rendered="false">
+											<div class="modal inmodal fade" id="sendingStatusModal"
+												tabindex="-1" role="dialog" aria-hidden="true"
+												style="display: none;">
+												<div class="modal-dialog modal-lg">
+													<p:fragment autoUpdate="true">
+														<div class="modal-content">
+															<div class="modal-header">
+																<button type="button" class="close" data-dismiss="modal">
+																	<span aria-hidden="true">×</span><span class="sr-only">Close</span>
+																</button>
+																<h4 class="modal-title">Modal title</h4>
+															</div>
+															<div class="modal-body">
+																<p:outputPanel id="threadListPanel" styleClass="project-list col-lg-12">
+																	
+																</p:outputPanel>
+															</div>
+	
+															<div class="modal-footer">
+																<button type="button" class="btn btn-white"
+																	data-dismiss="modal">Close</button>
+																<p:commandLink id="stopAllThreadButton" styleClass="btn btn-danger btn-sm" 
+																	actionListener="#{adminView.getActiveModel().stopAllThreads}"
+																	oncomplete="showSuccess('All threads are killed successfully', function () { window.location = './index.xhtml'; });"
+																	 >Stop all</p:commandLink> 
+															</div>
+														</div>
+													</p:fragment>
+												</div>
+											</div>
+										</p:outputPanel>
+										
+									</p:outputPanel>
+								</div>
+							</div>
+
+						</p:outputPanel>
+
+
+						<div class="footer" style="display: none;">
+							<div class="pull-right">
+								10GB of <strong>250GB</strong> Free.
+							</div>
+							<div>
+								<strong>Copyright</strong> Example Company &copy; 2014-2017
+							</div>
+						</div>
+					</p:outputPanel>
+				</div>
+
+			</div>
+
+		</div>
+	</h:form>
+</h:body>
+</html>
